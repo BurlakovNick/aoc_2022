@@ -124,3 +124,8 @@ def try_parse_float(s: str):
         return float(s)
     except ValueError:
         return None
+
+
+def batch(lst, n):
+    for i in range(0, len(lst), n):
+        yield lst[i:i + n]
