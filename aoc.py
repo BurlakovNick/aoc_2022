@@ -129,3 +129,7 @@ def try_parse_float(s: str):
 def batch(lst, n):
     for i in range(0, len(lst), n):
         yield lst[i:i + n]
+
+
+def char_to_int(x):
+    return (ord(x) - ord('a') + 1) if 'a' <= x <= 'z' else (ord(x) - ord('A') + 27)
