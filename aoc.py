@@ -131,5 +131,5 @@ def batch(lst, n):
         yield lst[i:i + n]
 
 
-def char_to_int(x):
+def ch_to_int(x):
     return (ord(x) - ord('a') + 1) if 'a' <= x <= 'z' else (ord(x) - ord('A') + 27)
