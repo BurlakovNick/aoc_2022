@@ -13,7 +13,7 @@ inp = [
 ]
 cmds = read()
 
-st = [[y for y in x] for x in inp]
+st = [list(x) for x in inp]
 for _, cnt, _, fr, _, to in cmds:
     fr -= 1
     to -= 1
@@ -22,7 +22,7 @@ for _, cnt, _, fr, _, to in cmds:
 
 print("Part One", "".join([x[-1] for x in st]))
 
-st = [[y for y in x] for x in inp]
+st = [list(x) for x in inp]
 for _, cnt, _, fr, _, to in cmds:
     fr -= 1
     to -= 1
