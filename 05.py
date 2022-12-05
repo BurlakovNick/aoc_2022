@@ -26,7 +26,7 @@ st = [list(x) for x in inp]
 for _, cnt, _, fr, _, to in cmds:
     fr -= 1
     to -= 1
-    st[to].extend(st[fr][-cnt:len(st[fr])])
+    st[to].extend(st[fr][-cnt:])
     for _ in range(cnt):
         st[fr].pop()
 
