@@ -1,13 +1,12 @@
 from collections import defaultdict
 from functools import *
-
 from aoc import *
 
 inp = read()
 
-path, dirs, i = [""], defaultdict(list), 0
-while i < len(inp):
-    match inp[i]:
+path, dirs = [""], defaultdict(list)
+for cmd in inp:
+    match cmd:
         case ["$", "cd", ".."]:
             path.pop()
         case ["$", "cd", "/"]:
@@ -15,22 +14,18 @@ while i < len(inp):
         case ["$", "cd", dir_name]:
             path.append(dir_name)
         case ["$", "ls"]:
-            while i + 1 < len(inp) and inp[i + 1][0] != '$':
-                i += 1
-                size_or_dir, name = inp[i]
-                dirs["/".join(path)].append(size_or_dir if isinstance(size_or_dir, int) else name)
-    i += 1
+            pass
+        case ["dir", name]:
+            dirs["/".join(path)].append(name)
+        case [size, _]:
+            dirs["/".join(path)].append(size)
 
 
 @cache
 def get_size(path):
-    total = 0
-    for item in dirs[path]:
-        if isinstance(item, int):
-            total += item
-        else:
-            total += get_size(path + "/" + item)
-    return total
+    def size(x):
+        return x if isinstance(x, int) else get_size(path + "/" + x)
+    return sum(size(x) for x in dirs[path])
 
 
 sizes = sorted([get_size(x) for x in dirs.keys()])
