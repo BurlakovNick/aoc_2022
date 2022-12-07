@@ -70,6 +70,10 @@ def read_map_dict() -> dict[tuple[int, int], int]:
     return {(x, y): matrix[x][y] for x, y in cells(matrix)}
 
 
+def flatten(list2):
+    return [y for x in list2 for y in x]
+
+
 def read_lines() -> list[str]:
     fn = "inputs/" + (os.path.basename(sys.argv[0])[0:2] if not SAMPLE else "sample")
     fh = open(fn + ".txt", "r")
