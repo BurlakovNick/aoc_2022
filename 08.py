@@ -12,9 +12,9 @@ def is_visible(x, y):
         return all(h < trees[x][y] for h in lst)
 
     return any([
-        all_visible(trees[x][0:y]),
+        all_visible(trees[x][:y]),
         all_visible(trees[x][y + 1:]),
-        all_visible(transposed_trees[y][0:x]),
+        all_visible(transposed_trees[y][:x]),
         all_visible(transposed_trees[y][x + 1:]),
     ])
 
@@ -28,9 +28,9 @@ def scenic(x, y):
         return dist + int(dist < len(lst))
 
     return (
-        viewing_dist(list(reversed(trees[x][0:y]))) *
+        viewing_dist(list(reversed(trees[x][:y]))) *
         viewing_dist(trees[x][y + 1:]) *
-        viewing_dist(list(reversed(transposed_trees[y][0:x]))) *
+        viewing_dist(list(reversed(transposed_trees[y][:x]))) *
         viewing_dist(transposed_trees[y][x + 1:])
     )
 
