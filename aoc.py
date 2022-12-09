@@ -137,3 +137,27 @@ def batch(lst, n):
 
 def ch_to_int(x):
     return (ord(x) - ord('a') + 1) if 'a' <= x <= 'z' else (ord(x) - ord('A') + 27)
+
+
+class V:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def __add__(self, other):
+        return V(self.x + other.x, self.y + other.y)
+
+    def __eq__(self, other):
+        return self.x == other.x and self.y == other.y
+
+    def __hash__(self):
+        return (self.x, self.y).__hash__()
+
+    def dist(self, other):
+        return abs(self.x - other.x) + abs(self.y - other.y)
+
+    def neighbors_8(self):
+        for dx in range(-1, 2):
+            for dy in range(-1, 2):
+                if dx != 0 or dy != 0:
+                    yield self + V(dx, dy)
