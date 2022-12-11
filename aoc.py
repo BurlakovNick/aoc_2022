@@ -87,8 +87,19 @@ def read(sep: str = None) -> list:
     return [parse_values(line, sep) for line in read_lines()]
 
 
-def read_blocks(sep: str = None, parse: Callable = None) -> list:
-    lines = [parse(line) if parse else parse_values(line, sep) for line in read_lines()]
+def read_blocks(sep: str = None, parse: Callable = None, trim = None) -> list:
+    def clean(line: str):
+        if not trim:
+            return line
+        if isinstance(trim, str):
+            return line.replace(trim, " ")
+        if isinstance(trim, list):
+            for t in trim:
+                line = line.replace(t, " ")
+        return line
+
+    lines = [clean(line) for line in read_lines()]
+    lines = [parse(line) if parse else parse_values(line, sep) for line in lines]
     blocks = []
     block = []
     for line in lines:
