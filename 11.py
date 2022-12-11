@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from pprint import pprint
 from typing import Tuple
 
 from aoc import *
@@ -19,21 +18,20 @@ class Monkey:
 inp = read_blocks(trim=[":", ","])
 
 
-def parse_monkeys() -> Tuple[dict[int, Monkey], int]:
+def parse_monkeys() -> Tuple[list[Monkey], int]:
     mod = 1
-    monkeys = {}
+    monkeys = []
     for monkey in inp:
         name, starting, operation, test, if_true, if_false = monkey
-        id = name[1]
-        monkeys[id] = Monkey(
-            id=id,
+        monkeys.append(Monkey(
+            id=name[1],
             items=starting[2:],
             operation=operation[3:],
             test_divisible_by=test[3],
             throw_true=if_true[5],
             throw_false=if_false[5],
             total_inspections=0,
-        )
+        ))
         mod *= test[3]
     return monkeys, mod
 
@@ -49,8 +47,8 @@ def increase_worry(level: int, operation: list) -> int:
     raise RuntimeError()
 
 
-def simulate_round(monkeys: dict[int, Monkey], need_division: bool, mod: int):
-    for monkey in monkeys.values():
+def simulate_round(monkeys: list[Monkey], need_division: bool, mod: int):
+    for monkey in monkeys:
         for item in monkey.items:
             monkey.total_inspections += 1
             level = increase_worry(item, monkey.operation)
@@ -70,7 +68,7 @@ def simulate(rounds: int, need_division: bool) -> int:
     for i in range(rounds):
         simulate_round(monkeys, need_division, mod)
 
-    busiest = sorted(monkeys.values(), key=lambda m: m.total_inspections, reverse=True)
+    busiest = sorted(monkeys, key=lambda m: m.total_inspections, reverse=True)
     return busiest[0].total_inspections * busiest[1].total_inspections
 
 
