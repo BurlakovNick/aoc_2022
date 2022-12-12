@@ -19,36 +19,9 @@ def cells(matrix):
             yield x, y, v
 
 
-def neighbours8(x: int, y: int, matrix):
-    for xx, yy in [(x - 1, y - 1), (x, y - 1), (x + 1, y - 1),
-                   (x - 1, y), (x + 1, y),
-                   (x - 1, y + 1), (x, y + 1), (x + 1, y + 1)]:
-        if 0 <= yy < len(matrix) and 0 <= xx < len(matrix[0]):
-            yield xx, yy, matrix[yy][xx]
-
-
-def neighbours4(x: int, y: int, matrix):
-    w = len(matrix[0])
-    h = len(matrix)
-    for xx, yy in [(x - 1, y), (x + 1, y), (x, y + 1), (x, y - 1)]:
-        if 0 <= yy < h and 0 <= xx < w:
-            yield xx, yy, matrix[yy][xx]
-
-
 def measure(name, f):
     start = time.time()
     print(name, f(), time.time() - start)
-
-
-def maze_dfs(maze, passable, x, y, used=None):
-    if used is None:
-        used = set()
-    used.add((x, y))
-    yield x, y
-    for xx, yy, value in neighbours4(x, y, maze):
-        if (xx, yy) not in used and passable(value):
-            used.add((xx, yy))
-            yield from maze_dfs(maze, passable, xx, yy, used)
 
 
 def sign(x):
@@ -172,3 +145,19 @@ class V:
             for dy in range(-1, 2):
                 if dx != 0 or dy != 0:
                     yield self + V(dx, dy)
+
+    def neighbors_4(self):
+        yield self + V(0, -1)
+        yield self + V(0,  1)
+        yield self + V(1,  0)
+        yield self + V(-1, 0)
+
+    def neighbors_8_in_box(self, n, m):
+        for v in self.neighbors_8():
+            if 0 <= v.x < n and 0 <= v.y < m:
+                yield v
+
+    def neighbors_4_in_box(self, n, m):
+        for v in self.neighbors_4():
+            if 0 <= v.x < n and 0 <= v.y < m:
+                yield v
