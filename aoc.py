@@ -72,7 +72,6 @@ def read_blocks(sep: str = None, parse: Callable = None, trim = None) -> list:
         return line
 
     lines = [clean(line) for line in read_lines()]
-    lines = [parse(line) if parse else parse_values(line, sep) for line in lines]
     blocks = []
     block = []
     for line in lines:
@@ -80,7 +79,7 @@ def read_blocks(sep: str = None, parse: Callable = None, trim = None) -> list:
             blocks.append(block)
             block = []
         else:
-            block.append(line)
+            block.append(parse(line) if parse else parse_values(line, sep))
     blocks.append(block)
     return blocks
 
