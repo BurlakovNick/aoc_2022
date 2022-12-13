@@ -2,12 +2,6 @@ from functools import cmp_to_key
 from aoc import *
 
 
-def get_line(s):
-    if s == "":
-        return None
-    return eval(s)
-
-
 def compare(left, right):
     if isinstance(left, int) and isinstance(right, int):
         return sign(left - right)
@@ -23,13 +17,12 @@ def compare(left, right):
     return sign(len(left) - len(right))
 
 
-inp = read_blocks(parse=get_line)
+inp = read_blocks(parse=lambda s: eval(s) if s else None)
 
 result = 0
 for idx, (left, right) in enumerate(inp):
     if compare(left, right) < 0:
         result += idx + 1
-
 
 print("Part One", result)
 
