@@ -8,29 +8,24 @@ DOWN_DIRECTIONS = [V(1, 0), V(1, -1), V(1, 1)]
 
 def solve(add_bottom: bool):
     field: dict[V, str] = {}
-    lowest_rock_x: dict[int, int] = defaultdict(lambda: -1)
-
-    def put_rock(r):
-        field[r] = "#"
-        lowest_rock_x[r.y] = max(lowest_rock_x[r.y], r.x)
-
     for line in inp:
         cur = line[0]
-        put_rock(cur)
+        field[cur] = "#"
         for target in line:
             direction = (target - cur).dir()
             while cur != target:
                 cur += direction
-                put_rock(cur)
+                field[cur] = "#"
 
+    bottom = max(v.x for v in field.keys())
     if add_bottom:
-        bottom = max(lowest_rock_x.values()) + 2
+        bottom += 2
         for y in range(-1000, 2000):
-            put_rock(V(bottom, y))
+            field[V(bottom, y)] = "#"
 
     def fall(v: V):
         while True:
-            if field.get(v) is not None or v.x > lowest_rock_x[v.y]:
+            if field.get(v) is not None or v.x > bottom:
                 return None
 
             direction = next((d for d in DOWN_DIRECTIONS if field.get(v + d) is None), None)
