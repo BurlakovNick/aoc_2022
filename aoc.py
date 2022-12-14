@@ -56,22 +56,24 @@ def read_lines() -> list[str]:
         fh.close()
 
 
-def read(sep: str = None) -> list:
-    return [parse_values(line, sep) for line in read_lines()]
+def clean(line: str, trim):
+    if not trim:
+        return line
+    if isinstance(trim, str):
+        return line.replace(trim, " ")
+    if isinstance(trim, list):
+        for t in trim:
+            line = line.replace(t, " ")
+    return line
+
+
+def read(sep: str = None, trim = None) -> list:
+    lines = [clean(line, trim) for line in read_lines()]
+    return [parse_values(line, sep) for line in lines]
 
 
 def read_blocks(sep: str = None, parse: Callable = None, trim = None) -> list:
-    def clean(line: str):
-        if not trim:
-            return line
-        if isinstance(trim, str):
-            return line.replace(trim, " ")
-        if isinstance(trim, list):
-            for t in trim:
-                line = line.replace(t, " ")
-        return line
-
-    lines = [clean(line) for line in read_lines()]
+    lines = [clean(line, trim) for line in read_lines()]
     blocks = []
     block = []
     for line in lines:
@@ -130,6 +132,13 @@ class V:
     def __add__(self, other):
         return V(self.x + other.x, self.y + other.y)
 
+    def __sub__(self, other):
+        return V(self.x - other.x, self.y - other.y)
+
+    def __mul__(self, other):
+        assert isinstance(other, int)
+        return V(self.x * other, self.y * other)
+
     def __eq__(self, other):
         return self.x == other.x and self.y == other.y
 
@@ -160,3 +169,6 @@ class V:
         for v in self.neighbors_4():
             if 0 <= v.x < n and 0 <= v.y < m:
                 yield v
+
+    def dir(self):
+        return V(sign(self.x), sign(self.y))
