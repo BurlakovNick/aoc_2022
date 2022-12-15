@@ -8,7 +8,7 @@ def touching(p1: V, p2: V):
 
 
 def move_close(head: V, tail: V):
-    return sorted(tail.neighbors_8(), key=lambda x: head.dist(x))[0]
+    return sorted(tail.neighbors_8(), key=lambda x: head.dist_to(x))[0]
 
 
 dirs = {"R": V(0, 1), "L": V(0, -1), "U": V(-1, 0), "D": V(1, 0)}

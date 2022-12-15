@@ -21,7 +21,9 @@ def cells(matrix):
 
 def measure(name, f):
     start = time.time()
-    print(name, f(), time.time() - start)
+    result = f()
+    print(name, "time took", time.time() - start)
+    return result
 
 
 def sign(x):
@@ -145,8 +147,14 @@ class V:
     def __hash__(self):
         return (self.x, self.y).__hash__()
 
-    def dist(self, other):
+    def __repr__(self):
+        return (self.x, self.y).__repr__()
+
+    def dist_to(self, other):
         return abs(self.x - other.x) + abs(self.y - other.y)
+
+    def dist(self):
+        return abs(self.x) + abs(self.y)
 
     def neighbors_8(self):
         for dx in range(-1, 2):
