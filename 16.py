@@ -70,7 +70,7 @@ def calc(mask: int, pos: str, minutes: int) -> int:
 
 
 def solve():
-    best = -1
+    best = -INF
     for msk in range(0, (1 << n)):
         for pos in valves_with_rate.keys():
             best = max(best, calc(msk, pos, 30))
