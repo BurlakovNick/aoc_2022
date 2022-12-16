@@ -180,3 +180,12 @@ class V:
 
     def dir(self):
         return V(sign(self.x), sign(self.y))
+
+
+def get_submasks(mask):
+    x = mask
+    while True:
+        yield x
+        if x == 0:
+            break
+        x = (x - 1) & mask
