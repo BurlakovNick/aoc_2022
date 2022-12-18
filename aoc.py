@@ -182,6 +182,44 @@ class V:
         return V(sign(self.x), sign(self.y))
 
 
+class V3:
+    def __init__(self, x, y, z):
+        self.x = x
+        self.y = y
+        self.z = z
+
+    def __add__(self, other):
+        return V3(self.x + other.x, self.y + other.y, self.z + other.z)
+
+    def __sub__(self, other):
+        return V3(self.x - other.x, self.y - other.y, self.z + other.z)
+
+    def __eq__(self, other):
+        return self.x == other.x and self.y == other.y and self.z == other.z
+
+    def __hash__(self):
+        return (self.x, self.y, self.z).__hash__()
+
+    def __repr__(self):
+        return (self.x, self.y, self.z).__repr__()
+
+    def dist_to(self, other):
+        return abs(self.x - other.x) + abs(self.y - other.y) + abs(self.z - other.z)
+
+    def neighbors_6(self):
+        for d in [V3(-1, 0, 0), V3(1, 0, 0), V3(0, -1, 0), V3(0, 1, 0), V3(0, 0, -1), V3(0, 0, 1)]:
+            yield self + d
+
+    def neighbors_6_in_box(self, lx, rx, ly, ry, lz, rz):
+        for d in [V3(-1, 0, 0), V3(1, 0, 0), V3(0, -1, 0), V3(0, 1, 0), V3(0, 0, -1), V3(0, 0, 1)]:
+            v = self + d
+            if lx <= v.x < rx and ly <= v.y < ry and lz <= v.z < rz:
+                yield self + d
+
+    def dir(self):
+        return V3(sign(self.x), sign(self.y), sign(self.z))
+
+
 def get_submasks(mask):
     x = mask
     while True:
