@@ -1,8 +1,5 @@
-from collections import defaultdict
 from functools import cache
 from aoc import *
-
-# force_sample()
 
 inp = [[x for x in line if isinstance(x, int)] for line in read(trim=":")]
 
