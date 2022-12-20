@@ -69,9 +69,9 @@ def clean(line: str, trim):
     return line
 
 
-def read(sep: str = None, trim = None) -> list:
+def read(sep: str = None, parse: Callable = None, trim = None) -> list:
     lines = [clean(line, trim) for line in read_lines()]
-    return [parse_values(line, sep) for line in lines]
+    return [parse(line) if parse else parse_values(line, sep) for line in lines]
 
 
 def read_blocks(sep: str = None, parse: Callable = None, trim = None) -> list:
