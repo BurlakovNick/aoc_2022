@@ -45,8 +45,6 @@ def move(pos: V, dir_index: int):
         length = max_x[pos.y] - min_x[pos.y] + 1
         new_pos.x = (new_pos.x - min_x[pos.y]) % length + min_x[pos.y]
 
-    # print(pos, dir, new_pos)
-
     if tiles.get(new_pos) == ".":
         return new_pos
     if tiles.get(new_pos) == "#":
@@ -56,7 +54,6 @@ def move(pos: V, dir_index: int):
 
 pos, dir = V(0, min_y[0]), 0
 for cmd in cmds:
-    # print(cmd)
     if cmd == "L":
         dir = (dir - 1) % len(directions)
     elif cmd == "R":
@@ -64,16 +61,6 @@ for cmd in cmds:
     else:
         for _ in range(cmd):
             pos = move(pos, dir)
-
-    # for x in range(n):
-    #     line = ""
-    #     for y in range(m):
-    #         if V(x, y) == pos:
-    #             line += "@"
-    #         else:
-    #             line += tiles.get(V(x, y), " ")
-    #     print(line)
-    # print()
 
 print("Part One", pos, dir)
 print("Part One", (pos.x + 1) * 1000 + (pos.y + 1) * 4 + dir)
@@ -212,7 +199,6 @@ def move_2_sample(pos: V, dir_index: int) -> tuple[V, int]:
                 new_dir_index = 2
 
     new_pos = get_cube_side_offset(new_cube_side) + new_cube_pos
-    print(pos, dir, new_pos)
 
     if tiles.get(new_pos) == ".":
         return new_pos, new_dir_index
@@ -353,7 +339,6 @@ def move_2_prod(pos: V, dir_index: int) -> tuple[V, int]:
                 new_dir_index = dir_index
 
     new_pos = get_cube_side_offset(new_cube_side) + new_cube_pos
-    print(pos, dir, new_pos)
 
     if tiles.get(new_pos) == ".":
         return new_pos, new_dir_index
@@ -364,7 +349,6 @@ def move_2_prod(pos: V, dir_index: int) -> tuple[V, int]:
 
 pos, dir = V(0, min_y[0]), 0
 for cmd in cmds:
-    # print(cmd)
     if cmd == "L":
         dir = (dir - 1) % len(directions)
     elif cmd == "R":
@@ -374,15 +358,5 @@ for cmd in cmds:
             move_func = move_2_prod if cube_size == 50 else move_2_sample
             pos, dir = move_func(pos, dir)
 
-    # for x in range(n):
-    #     line = ""
-    #     for y in range(m):
-    #         if V(x, y) == pos:
-    #             line += "@"
-    #         else:
-    #             line += tiles.get(V(x, y), " ")
-    #     print(line)
-    # print()
-
 print("Part Two", pos, dir)
-print("Part Two", (pos.x + 1) * 1000 + (pos.y + 1) * 4 + dir)  # not 34600, too low, not 29535, too low
+print("Part Two", (pos.x + 1) * 1000 + (pos.y + 1) * 4 + dir)
